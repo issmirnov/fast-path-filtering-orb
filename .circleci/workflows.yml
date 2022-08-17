@@ -1,0 +1,9 @@
+version: 2.1
+
+orbs:
+  docker: circleci/docker@1.5.0
+  fast-checkout: issmirnov/fast-checkout@1.0.0
+parameters:
+  commands-modified:
+    type: boolean
+    default: false

@@ -17,7 +17,7 @@ workflows:
           exclude: RC009
           filters: *filters
       - orb-tools/publish:
-          orb-name: issmirnov/fast-checkout
+          orb-name: issmirnov/fast-path-filtering
           # pub-type: dev # change this to dev if you need to iterate
           vcs-type: << pipeline.project.type >>
           requires:

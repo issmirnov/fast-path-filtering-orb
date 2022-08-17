@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  fast-checkout: issmirnov/fast-checkout@dev:<<pipeline.git.revision>>
+  fast-path-filtering: issmirnov/fast-path-filtering@dev:<<pipeline.git.revision>>
   orb-tools: circleci/orb-tools@11.1
 
 filters: &filters
@@ -13,15 +13,12 @@ jobs:
     docker:
       - image: cimg/base:current
     steps:
-      # Note: we deliberately DO NOT have the standard "- checkout" step, as this orb replace it
-      - fast-checkout/get:
-          repo-uri: "https://github.com/issmirnov/fast-checkout-orb.git"
-          branch: "main"
-          sparse-paths: "src/ README.md"
-      - run:
-          name: use checked out files
-          command: |
-            ls src/
+      # Note: we deliberately DO NOT have the standard "- checkout" step, as this orb does not need the code pulled
+      - fast-path-filtering/filter:
+          base-revision: main
+          # mapping: <regexp applied to file list> <build property> <property value>
+          mapping:
+            src/commands/.*      commands-modified true
 
 workflows:
   test-deploy:
@@ -34,7 +31,7 @@ workflows:
           requires:
             - command-tests # force this job to run later, so that checkout check doesn't fail
       - orb-tools/publish:
-          orb-name: issmirnov/fast-checkout
+          orb-name: issmirnov/fast-path-filtering
           vcs-type: << pipeline.project.type >>
           pub-type: production
           requires:
