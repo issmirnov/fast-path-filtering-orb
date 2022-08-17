@@ -1,7 +1,10 @@
 version: 2.1
 
 description: >
-  Continue a pipeline based on paths of changed files.
+  Continue a pipeline based on paths of changed files. This is an enhanced
+  version of https://circleci.com/developer/orbs/orb/circleci/path-filtering
+  as it uses issmirnov/fast-checkout under the hood, thus speeding up operations
+  for extremely heavy repositories.
 display:
   home_url: "https://github.com/issmirnov/fast-path-filtering-orb"
   source_url: "https://github.com/issmirnov/fast-path-filtering-orb"
