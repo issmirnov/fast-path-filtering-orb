@@ -1,4 +1,6 @@
 version: 2.1
+
+setup: true # TODO: see how this will combine with other setup workflow
 orbs:
   fast-path-filtering: issmirnov/fast-path-filtering@dev:<<pipeline.git.revision>>
   orb-tools: circleci/orb-tools@11.1
