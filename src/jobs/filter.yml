@@ -46,6 +46,7 @@ parameters:
       https://hub.docker.com/r/cimg/python/tags
   repo-uri:
     type: string
+    default: "${CIRCLE_REPOSITORY_URL}"
     description: "Valid git clone URI. Can be SSH or HTTPS. You can use $CIRCLE_REPOSITORY_URL as well."
   sparse-paths:
     type: string
