@@ -44,9 +44,18 @@ parameters:
     description: >
       Pick a specific circleci/python image variant:
       https://hub.docker.com/r/cimg/python/tags
-
+  repo-uri:
+    type: string
+    description: "Valid git clone URI. Can be SSH or HTTPS. You can use $CIRCLE_REPOSITORY_URL as well."
+  sparse-paths:
+    type: string
+    default: "/"
+    description: "List of paths from the root of the repo that will be checked out. Defaults to everything."
 steps:
-  - checkout
+  - fast-checkout:
+      branch: << parameters.base-revision >>
+      repo-uri: << parameters.repo-uri >>
+      sparse-paths: << parameters.sparse-paths >>
   - when:
       condition:
         not:

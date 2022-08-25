@@ -5,13 +5,13 @@ usage:
   version: 2.1
   setup: true
   orbs:
-    path-filtering: circleci/path-filtering@0.0.1
+    fast-path-filtering: issmirnov/fast-path-filtering@0.0.1
   workflows:
     generate-config:
       jobs:
-        - path-filtering/filter:
+        - fast-path-filtering/filter:
             base-revision: main
-            config-path: .circleci/continue-config.yml
+            config-path: .circleci/config.yml # TODO - fix this?
             mapping: |
               src/.* build-code true
               doc/.* build-docs true
