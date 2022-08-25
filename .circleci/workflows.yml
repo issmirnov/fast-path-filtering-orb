@@ -7,3 +7,14 @@ parameters:
   commands-modified:
     type: boolean
     default: false
+
+workflows:
+  say-commands:
+    when: << pipeline.parameters.commands-modified >>
+    jobs:
+      - say-hi:
+          name: Commands were modified
+          steps:
+            - name: Hello
+              command: |
+                echo "Commands were modified and pipeline was triggered"
