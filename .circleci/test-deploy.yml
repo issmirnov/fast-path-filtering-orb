@@ -21,7 +21,7 @@ workflows:
       - orb-tools/pack:
           filters: *filters
           requires:
-            - command-tests # force this job to run later, so that checkout check doesn't fail
+            - fast-path-filtering/filter
       - orb-tools/publish:
           orb-name: issmirnov/fast-path-filtering
           vcs-type: << pipeline.project.type >>
