@@ -52,7 +52,7 @@ parameters:
     default: "/"
     description: "List of paths from the root of the repo that will be checked out. Defaults to everything."
 steps:
-  - fast-checkout:
+  - fast-checkout/get:
       branch: << parameters.base-revision >>
       repo-uri: << parameters.repo-uri >>
       sparse-paths: << parameters.sparse-paths >>
