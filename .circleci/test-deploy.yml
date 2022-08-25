@@ -17,6 +17,7 @@ workflows:
           mapping:
             src/commands/.*      commands-modified true
           filters: *filters
+          config-path: .circleci/config-continue.yml
       - orb-tools/pack:
           filters: *filters
           requires:
