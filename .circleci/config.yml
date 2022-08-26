@@ -1,9 +1,8 @@
 version: 2.1
 setup: true
 orbs:
-  orb-tools: circleci/orb-tools@11.1
-  shellcheck: circleci/shellcheck@3.1
-
+  orb-tools: circleci/orb-tools@11.2.0
+  fast-path-filtering: issmirnov/fast-path-filtering@dev:<<pipeline.git.revision>>
 filters: &filters
   tags:
     only: /.*/
@@ -16,20 +15,27 @@ workflows:
       - orb-tools/pack:
           filters: *filters
       - orb-tools/review:
-          filters: *filters
-      - shellcheck/check:
+          exclude: RC009
           filters: *filters
       - orb-tools/publish:
           orb-name: issmirnov/fast-path-filtering
+          pub-type: dev # change this to dev if you need to iterate
           vcs-type: << pipeline.project.type >>
           requires:
-            [orb-tools/lint, orb-tools/review, orb-tools/pack, shellcheck/check]
+            [orb-tools/lint, orb-tools/review, orb-tools/pack]
           # Use a context to hold your publishing token.
           context: orb-publishing
           filters: *filters
       # Triggers the next workflow in the Orb Development Kit.
-      - orb-tools/continue:
-          pipeline-number: << pipeline.number >>
-          vcs-type: << pipeline.project.type >>
-          requires: [orb-tools/publish]
+      # - orb-tools/continue:
+      #     pipeline-number: << pipeline.number >>
+      #     vcs-type: << pipeline.project.type >>
+      #     requires: [orb-tools/publish]
+      #     filters: *filters
+      - fast-path-filtering/filter:
+          base-revision: main
+          # mapping: <regexp applied to file list> <build property> <property value>
+          mapping:
+            src/commands/.*      commands-modified true
           filters: *filters
+          config-path: .circleci/test-deploy.yml
