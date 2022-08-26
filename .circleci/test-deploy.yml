@@ -1,6 +1,6 @@
 version: 2.1
 
-setup: true # TODO: see how this will combine with other setup workflow
+# setup: true # TODO: see how this will combine with other setup workflow
 orbs:
   fast-path-filtering: issmirnov/fast-path-filtering@dev:<<pipeline.git.revision>>
   orb-tools: circleci/orb-tools@11.1
@@ -12,14 +12,21 @@ filters: &filters
 workflows:
   test-deploy:
     jobs:
-      # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
-      - fast-path-filtering/filter:
-          base-revision: main
-          # mapping: <regexp applied to file list> <build property> <property value>
-          mapping:
-            src/commands/.*      commands-modified true
-          filters: *filters
-          config-path: .circleci/workflows.yml
+      # # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
+      # - fast-path-filtering/filter:
+      #     base-revision: main
+      #     # mapping: <regexp applied to file list> <build property> <property value>
+      #     mapping:
+      #       src/commands/.*      commands-modified true
+      #     filters: *filters
+      #     config-path: .circleci/workflows.yml
+      - print-params:
+          steps:
+            - name: Param printer
+              command: |
+                echo "Commands were modified and pipeline was triggered"
+                echo << pipeline.parameters >>
+
       - orb-tools/pack:
           filters: *filters
           requires:

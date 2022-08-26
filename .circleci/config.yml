@@ -26,8 +26,15 @@ workflows:
           context: orb-publishing
           filters: *filters
       # Triggers the next workflow in the Orb Development Kit.
-      - orb-tools/continue:
-          pipeline-number: << pipeline.number >>
-          vcs-type: << pipeline.project.type >>
-          requires: [orb-tools/publish]
+      # - orb-tools/continue:
+      #     pipeline-number: << pipeline.number >>
+      #     vcs-type: << pipeline.project.type >>
+      #     requires: [orb-tools/publish]
+      #     filters: *filters
+      - fast-path-filtering/filter:
+          base-revision: main
+          # mapping: <regexp applied to file list> <build property> <property value>
+          mapping:
+            src/commands/.*      commands-modified true
           filters: *filters
+          config-path: .circleci/test-deploy.yml
