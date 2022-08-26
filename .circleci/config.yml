@@ -2,6 +2,7 @@ version: 2.1
 setup: true
 orbs:
   orb-tools: circleci/orb-tools@11.2.0
+  fast-path-filtering: issmirnov/fast-path-filtering@dev:<<pipeline.git.revision>>
 filters: &filters
   tags:
     only: /.*/
